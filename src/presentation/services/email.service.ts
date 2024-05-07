@@ -21,6 +21,7 @@ export class EmailService {
         mailerService: string,
         mailerEmail: string,
         senderEmailPassword: string,
+        private readonly posToProvider: boolean,
     ) {
         this.transporter = nodemailer.createTransport({
             service: mailerService,
@@ -43,6 +44,9 @@ export class EmailService {
         const { to, subject, htmlBody, attachements = [] } = options;
 
         try {
+            // Para validar si enviamos el correo cuando se crea un usuario
+            if(!this.posToProvider) return true;
+
             const sentInformation = await this.transporter.sendMail({
                 to: to,
                 subject: subject,
