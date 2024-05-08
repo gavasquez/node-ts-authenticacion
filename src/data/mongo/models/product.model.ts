@@ -29,4 +29,14 @@ const ProductSchema = new mongoose.Schema({
     }
 });
 
+/* Como queremos que sea serializado */
+
+ProductSchema.set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: function(doc, ret, options) {
+        delete ret._id;
+    },
+});
+
 export const ProductModel = mongoose.model('product', ProductSchema);
